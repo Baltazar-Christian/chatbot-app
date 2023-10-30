@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use BotMan\BotMan\BotMan;
+use BotMan\Drivers\DriverManager;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -19,6 +21,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+           DriverManager::loadDriver(\BotMan\Drivers\Web\WebDriver::class);
+
+        $botman = app('botman');
+
+        $botman->hears('hello', function (BotMan $bot) {
+            $bot->reply('Hello there!');
+        });
     }
 }
